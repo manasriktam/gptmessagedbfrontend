@@ -1,13 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
+import "./bootstrap.min.css";
+import App from "./pages/App";
+import reportWebVitals from "./reportWebVitals";
+import ErrorPage from "./pages/error-page";
+import Dashboard from "./pages/Dashboard";
+import UserDashboard, { loader as useridLoader } from "./pages/UserDashboard";
+import MindMapDashboard, {
+  loader as sessionidLoader,
+} from "./pages/MindMapDashboard";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/dashboard/:useruid",
+    element: <UserDashboard />,
+    loader: useridLoader,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/dashboard/mindmap/:sessionuid",
+    element: <MindMapDashboard />,
+    loader: sessionidLoader,
+    errorElement: <ErrorPage />,
+  },
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
